@@ -177,9 +177,8 @@ function SetupForPool(logger, poolOptions, setupFinished){
             //clearInterval(paymentInterval);
             clearTimeout(paymentInterval);
         }
-        paymentInterval = setTimeout(processPayments, paymentIntervalSecs * 1000);
-        //paymentInterval = setInterval(processPayments, paymentIntervalSecs * 1000);
-        //setTimeout(processPayments, 100);
+        var nextInterval = (paymentIntervalSecs * 1000) - (Date.now() % (paymentIntervalSecs * 1000));
+        paymentInterval = setTimeout(processPayments, nextInterval);
         setupFinished(true);
     }
 
@@ -1400,7 +1399,8 @@ function SetupForPool(logger, poolOptions, setupFinished){
 
         ], function(){
             if (!disablePeymentProcessing) {
-                paymentInterval = setTimeout(processPayments, paymentIntervalSecs * 1000);
+                var nextInterval = (paymentIntervalSecs * 1000) - (Date.now() % (paymentIntervalSecs * 1000));
+                paymentInterval = setTimeout(processPayments, nextInterval);
             }
 
             var paymentProcessTime = Date.now() - startPaymentProcess;
