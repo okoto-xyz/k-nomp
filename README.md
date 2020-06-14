@@ -14,22 +14,24 @@ Usage of this software requires abilities with sysadmin, database admin, coin da
 
 ### Community / Support
 Forum
-* Support / general discussion join: https://discourse.koto.cash/
+* Support / general discussion join: https://discourse.ko-to.org/
 
-Wiki
-* http://koto.cswiki.jp/index.php?FrontPage
+Discord
+* https://discord.gg/HmsTDww
 
 If your pool uses K-NOMP let us know and we will list your website here.
 
 ### Some pools using K-NOMP or node-stratum-yescrypt-module:
 
-http://koto.poolof.work:8080/ K-NOMP
+https://okoto.xyz/ おコトを少々（okoto.xyz)
 
-https://kotopool.work:8080/ kotopool.work
+https://kpool.jp/ kpool.jp
 
-http://okoto.xyz/ おコトを少々（okoto.xyz)
+https://veniomining.com/ VenioMining
 
-http://www.kpool.jp/ kpool.jp
+https://koto.mofumofu.me/ mofumofu.me
+
+https://koto.multipool.online/ multipool.online
 
 Usage
 =====
