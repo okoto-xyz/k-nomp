@@ -51,6 +51,9 @@ function SetupForPool(logger, poolOptions, setupFinished){
     var opidCount = 0;
     var opids = [];
 
+    // default tx fee
+    var txFee = 1000;
+
     // zcash team recommends 10 confirmations for safety from orphaned blocks
     var minConfShield = Math.max((processingConfig.minConf || 10), 1); // Don't allow 0 conf transactions.
     var minConfPayout = Math.max((processingConfig.minConf || 10), 1);
@@ -249,7 +252,7 @@ function SetupForPool(logger, poolOptions, setupFinished){
             logger.error(logSystem, logComponent, 'tBalance === NaN for sendTToZ');
             return;
         }
-        if ((tBalance - 10000) <= 0)
+        if ((tBalance - txFee) <= 0)
             return;
 
         // do not allow more than a single z_sendmany operation at a time
@@ -258,8 +261,8 @@ function SetupForPool(logger, poolOptions, setupFinished){
             return;
         }
 
-        var amount = satoshisToCoins(tBalance - 10000);
-        var params = [poolOptions.address, [{'address': poolOptions.zAddress, 'amount': amount}], minConf];
+        var amount = satoshisToCoins(tBalance - txFee);
+        var params = [poolOptions.address, [{'address': poolOptions.zAddress, 'amount': amount}], minConf, satoshisToCoins(txFee)];
         daemon.cmd('z_sendmany', params,
             function (result) {
                 //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
@@ -288,7 +291,7 @@ function SetupForPool(logger, poolOptions, setupFinished){
             logger.error(logSystem, logComponent, 'zBalance === NaN for sendZToT');
             return;
         }
-        if ((zBalance - 10000) <= 0)
+        if ((zBalance - txFee) <= 0)
             return;
 
         // do not allow more than a single z_sendmany operation at a time
@@ -297,12 +300,12 @@ function SetupForPool(logger, poolOptions, setupFinished){
             return;
         }
 
-        var amount = satoshisToCoins(zBalance - 10000);
+        var amount = satoshisToCoins(zBalance - txFee);
         // unshield no more than 100 KOTO at a time
         if (amount > maxUnshieldAmount)
             amount = maxUnshieldAmount;
 
-        var params = [poolOptions.zAddress, [{'address': poolOptions.tAddress, 'amount': amount}], minConf];
+        var params = [poolOptions.zAddress, [{'address': poolOptions.tAddress, 'amount': amount}], minConf, satoshisToCoins(txFee)];
         daemon.cmd('z_sendmany', params,
             function (result) {
                 //Check if payments failed because wallet doesn't have enough coins to pay for tx fees
